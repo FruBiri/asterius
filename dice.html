@@ -169,7 +169,7 @@
   breakdown.push(`<span class="roller-mod">${modSign}${Math.abs(modifier)}</span>`);
 }
 
-      const sumDisplay = breakdown.length ? `(${breakdown.join(' + ')})` : '';
+      const sumDisplay = breakdown.length ? `(${breakdown.join(' ')} )` : '';
       document.getElementById('result').innerHTML = `<strong>Sum: ${total}</strong> ${sumDisplay}`;
     }
   </script>
