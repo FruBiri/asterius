@@ -164,9 +164,10 @@
       });
 
       total += modifier;
-      if (modifier !== 0) {
-        breakdown.push(`<span class="roller-mod">${modifier >= 0 ? '+' : ''}${modifier}</span>`);
-      }
+     if (modifier !== 0) {
+  const modSign = modifier > 0 ? '+ ' : '- ';
+  breakdown.push(`<span class="roller-mod">${modSign}${Math.abs(modifier)}</span>`);
+}
 
       const sumDisplay = breakdown.length ? `(${breakdown.join(' + ')})` : '';
       document.getElementById('result').innerHTML = `<strong>Sum: ${total}</strong> ${sumDisplay}`;
