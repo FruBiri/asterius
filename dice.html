@@ -6,157 +6,171 @@
   <title>Dice Roller</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
-      padding: 2em;
-      max-width: 600px;
-      margin: auto;
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      padding: 2rem;
     }
+
     h1 {
       text-align: center;
-      margin-bottom: 1em;
     }
+
     table {
-      width: 100%;
+      margin: 0 auto 1rem auto;
       border-collapse: collapse;
-      margin-bottom: 1em;
     }
+
     td {
-      padding: 0.5em;
+      padding: 0.5rem;
       text-align: center;
     }
+
     button {
-      padding: 0.3em 0.7em;
-      font-size: 1em;
-      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.8rem;
     }
-    #dice-result {
+
+    .count-box {
+      min-width: 2rem;
+      display: inline-block;
+    }
+
+    .roller-row {
       font-weight: bold;
-      font-size: 1.2em;
+    }
+
+    .roller-d4 { color: #d66f6f; }
+    .roller-d6 { color: #d6894f; }
+    .roller-d8 { color: #d6c14f; }
+    .roller-d10 { color: #6fd66f; }
+    .roller-d12 { color: #4fd6c1; }
+    .roller-d20 { color: #4f6fd6; }
+    .roller-d100 { color: #a04fd6; }
+
+    #result {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 1rem;
     }
   </style>
 </head>
 <body>
   <h1>Dice Roller</h1>
-  <table>
-    <tbody>
-      <tr>
-        <td>Flat Modifier</td>
-        <td><button id="modifier-minus">−</button></td>
-        <td><span id="flat-modifier-count">0</span></td>
-        <td><button id="modifier-plus">+</button></td>
-      </tr>
-      <tr>
-        <td>d4</td>
-        <td><button id="d4-minus">−</button></td>
-        <td><span id="d4-count">0</span></td>
-        <td><button id="d4-plus">+</button></td>
-      </tr>
-      <tr>
-        <td>d6</td>
-        <td><button id="d6-minus">−</button></td>
-        <td><span id="d6-count">0</span></td>
-        <td><button id="d6-plus">+</button></td>
-      </tr>
-      <tr>
-        <td>d8</td>
-        <td><button id="d8-minus">−</button></td>
-        <td><span id="d8-count">0</span></td>
-        <td><button id="d8-plus">+</button></td>
-      </tr>
-      <tr>
-        <td>d10</td>
-        <td><button id="d10-minus">−</button></td>
-        <td><span id="d10-count">0</span></td>
-        <td><button id="d10-plus">+</button></td>
-      </tr>
-      <tr>
-        <td>d12</td>
-        <td><button id="d12-minus">−</button></td>
-        <td><span id="d12-count">0</span></td>
-        <td><button id="d12-plus">+</button></td>
-      </tr>
-      <tr>
-        <td>d20</td>
-        <td><button id="d20-minus">−</button></td>
-        <td><span id="d20-count">0</span></td>
-        <td><button id="d20-plus">+</button></td>
-      </tr>
-      <tr>
-        <td>d100</td>
-        <td><button id="d100-minus">−</button></td>
-        <td><span id="d100-count">0</span></td>
-        <td><button id="d100-plus">+</button></td>
-      </tr>
-      <tr>
-        <td colspan="4" style="text-align: center; padding-top: 1em;">
-          <button id="roll-button">Roll</button>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="4" id="dice-result" style="text-align: center;"></td>
-      </tr>
-    </tbody>
+  <table id="diceTable">
+    <!-- Dice rows -->
+    <tr class="roller-row">
+      <td class="roller-d4">d4</td>
+      <td><button onclick="changeCount('d4', -1)">−</button></td>
+      <td><span id="count-d4" class="count-box">0</span></td>
+      <td><button onclick="changeCount('d4', 1)">+</button></td>
+    </tr>
+    <tr class="roller-row">
+      <td class="roller-d6">d6</td>
+      <td><button onclick="changeCount('d6', -1)">−</button></td>
+      <td><span id="count-d6" class="count-box">0</span></td>
+      <td><button onclick="changeCount('d6', 1)">+</button></td>
+    </tr>
+    <tr class="roller-row">
+      <td class="roller-d8">d8</td>
+      <td><button onclick="changeCount('d8', -1)">−</button></td>
+      <td><span id="count-d8" class="count-box">0</span></td>
+      <td><button onclick="changeCount('d8', 1)">+</button></td>
+    </tr>
+    <tr class="roller-row">
+      <td class="roller-d10">d10</td>
+      <td><button onclick="changeCount('d10', -1)">−</button></td>
+      <td><span id="count-d10" class="count-box">0</span></td>
+      <td><button onclick="changeCount('d10', 1)">+</button></td>
+    </tr>
+    <tr class="roller-row">
+      <td class="roller-d12">d12</td>
+      <td><button onclick="changeCount('d12', -1)">−</button></td>
+      <td><span id="count-d12" class="count-box">0</span></td>
+      <td><button onclick="changeCount('d12', 1)">+</button></td>
+    </tr>
+    <tr class="roller-row">
+      <td class="roller-d20">d20</td>
+      <td><button onclick="changeCount('d20', -1)">−</button></td>
+      <td><span id="count-d20" class="count-box">0</span></td>
+      <td><button onclick="changeCount('d20', 1)">+</button></td>
+    </tr>
+    <tr class="roller-row">
+      <td class="roller-d100">d100</td>
+      <td><button onclick="changeCount('d100', -1)">−</button></td>
+      <td><span id="count-d100" class="count-box">0</span></td>
+      <td><button onclick="changeCount('d100', 1)">+</button></td>
+    </tr>
+
+    <!-- Flat modifier row moved to bottom -->
+    <tr class="roller-row">
+      <td colspan="1"><strong>Flat Mod</strong></td>
+      <td><button onclick="changeModifier(-1)">−</button></td>
+      <td><span id="modifier" class="count-box">0</span></td>
+      <td><button onclick="changeModifier(1)">+</button></td>
+    </tr>
+
+    <!-- Roll button -->
+    <tr>
+      <td colspan="4">
+        <button onclick="rollDice()">Roll</button>
+      </td>
+    </tr>
   </table>
+
+  <div id="result"></div>
 
   <script>
     const diceTypes = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
     const diceColors = {
-      d4: '#c0392b',
-      d6: '#2980b9',
-      d8: '#27ae60',
-      d10: '#8e44ad',
-      d12: '#e67e22',
-      d20: '#2c3e50',
-      d100: '#16a085'
+      d4: 'roller-d4',
+      d6: 'roller-d6',
+      d8: 'roller-d8',
+      d10: 'roller-d10',
+      d12: 'roller-d12',
+      d20: 'roller-d20',
+      d100: 'roller-d100'
     };
 
-    function updateCount(id, delta) {
-      const countEl = document.getElementById(`${id}-count`);
-      let value = parseInt(countEl.textContent);
-      value = Math.max(0, value + delta);
-      countEl.textContent = value;
+    let modifier = 0;
+
+    function changeCount(die, amount) {
+      const countSpan = document.getElementById(`count-${die}`);
+      let current = parseInt(countSpan.textContent);
+      current = Math.max(0, current + amount);
+      countSpan.textContent = current;
     }
 
-    diceTypes.forEach(die => {
-      document.getElementById(`${die}-minus`).addEventListener('click', () => updateCount(die, -1));
-      document.getElementById(`${die}-plus`).addEventListener('click', () => updateCount(die, 1));
-    });
-
-    // Modifier buttons
-    document.getElementById('modifier-minus').addEventListener('click', () => updateCount('flat-modifier', -1));
-    document.getElementById('modifier-plus').addEventListener('click', () => updateCount('flat-modifier', 1));
+    function changeModifier(amount) {
+      modifier += amount;
+      document.getElementById('modifier').textContent = modifier;
+    }
 
     function rollDie(sides) {
       return Math.floor(Math.random() * sides) + 1;
     }
 
-    document.getElementById('roll-button').addEventListener('click', () => {
+    function rollDice() {
       let total = 0;
       let breakdown = [];
 
       diceTypes.forEach(die => {
-        const count = parseInt(document.getElementById(`${die}-count`).textContent);
+        const count = parseInt(document.getElementById(`count-${die}`).textContent);
         const sides = parseInt(die.replace('d', ''));
-        const rolls = [];
         for (let i = 0; i < count; i++) {
           const result = rollDie(sides);
           total += result;
-          rolls.push(`<span style="color: ${diceColors[die]}">${result}</span>`);
-        }
-        if (rolls.length > 0) {
-          breakdown.push(`${die}: ${rolls.join(' + ')}`);
+          breakdown.push(`<span class="${diceColors[die]}">${result}</span>`);
         }
       });
 
-      const modifier = parseInt(document.getElementById('flat-modifier-count').textContent);
       total += modifier;
       if (modifier !== 0) {
-        breakdown.push(`Modifier: ${modifier >= 0 ? '+' : ''}${modifier}`);
+        breakdown.push(`<span class="roller-mod">${modifier >= 0 ? '+' : ''}${modifier}</span>`);
       }
 
-      document.getElementById('dice-result').innerHTML = `Sum: ${total} <br>(${breakdown.join(' | ')})`;
-    });
+      const sumDisplay = breakdown.length ? `(${breakdown.join(' + ')})` : '';
+      document.getElementById('result').innerHTML = `<strong>Sum: ${total}</strong> ${sumDisplay}`;
+    }
   </script>
 </body>
 </html>
