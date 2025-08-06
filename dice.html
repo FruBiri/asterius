@@ -2,50 +2,186 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dice Roller</title>
-  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+    }
+
+    .dice-table {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 0.5rem 1rem;
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      align-items: center;
+    }
+
+    .dice-label {
+      text-align: left;
+      font-weight: bold;
+    }
+
+    .dice-button {
+      padding: 0.4rem 0.8rem;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+    }
+
+    .dice-count {
+      width: 2rem;
+      text-align: center;
+    }
+
+    .roll-button {
+      background-color: #444;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 2rem;
+    }
+
+    .result {
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      background-color: #1e1e1e;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    .flat-modifier-row {
+      margin-bottom: 2rem;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎲 Dice Roller</h1>
-    <div class="dice-buttons">
-      <button onclick="rollDice(4)">d4</button>
-      <button onclick="rollDice(6)">d6</button>
-      <button onclick="rollDice(8)">d8</button>
-      <button onclick="rollDice(10)">d10</button>
-      <button onclick="rollDice(12)">d12</button>
-      <button onclick="rollDice(20)">d20</button>
-      <button onclick="rollDice(100)">d100</button>
-    </div>
+  <h1>Dice Roller</h1>
 
-    <div class="dice-input">
-      <label for="numDice">How many dice?</label>
-      <input type="number" id="numDice" min="1" max="20" value="1">
-    </div>
-
-    <div class="result" id="diceResult"></div>
-
-    <div class="nav-link">
-      <a href="index.html">⬅️ Back to Home</a>
-    </div>
+  <div class="flat-modifier-row dice-table">
+    <div class="dice-label">Flat Modifier</div>
+    <button class="dice-button">-</button>
+    <div class="dice-count">0</div>
+    <button class="dice-button">+</button>
   </div>
 
-  <script>
-    function rollDice(sides) {
-      const numDice = parseInt(document.getElementById('numDice').value);
-      const results = [];
-      for (let i = 0; i < numDice; i++) {
-        results.push(Math.floor(Math.random() * sides) + 1);
-      }
+  <div class="dice-table">
+    <div class="dice-label">d4</div>
+    <button class="dice-button">-</button>
+    <div class="dice-count">0</div>
+    <button class="dice-button">+</button>
 
-      const resultBox = document.getElementById('diceResult');
-      resultBox.innerHTML = `
-        <p>Rolling ${numDice} d${sides}:</p>
-        <p>${results.join(', ')}</p>
-        <p><strong>Total:</strong> ${results.reduce((a, b) => a + b, 0)}</p>
-      `;
+    <div class="dice-label">d6</div>
+    <button class="dice-button">-</button>
+    <div class="dice-count">0</div>
+    <button class="dice-button">+</button>
+
+    <div class="dice-label">d8</div>
+    <button class="dice-button">-</button>
+    <div class="dice-count">0</div>
+    <button class="dice-button">+</button>
+
+    <div class="dice-label">d10</div>
+    <button class="dice-button">-</button>
+    <div class="dice-count">0</div>
+    <button class="dice-button">+</button>
+
+    <div class="dice-label">d12</div>
+    <button class="dice-button">-</button>
+    <div class="dice-count">0</div>
+    <button class="dice-button">+</button>
+
+    <div class="dice-label">d20</div>
+    <button class="dice-button">-</button>
+    <div class="dice-count">0</div>
+    <button class="dice-button">+</button>
+
+    <div class="dice-label">d100</div>
+    <button class="dice-button">-</button>
+    <div class="dice-count">0</div>
+    <button class="dice-button">+</button>
+  </div>
+
+  <button class="roll-button">Roll</button>
+
+  <div class="result" id="result">
+    <!-- Roll result will be shown here -->
+  </div>
+<script>
+  const diceTypes = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
+  const diceColors = {
+    d4: '#e74c3c',
+    d6: '#3498db',
+    d8: '#f1c40f',
+    d10: '#9b59b6',
+    d12: '#1abc9c',
+    d20: '#e67e22',
+    d100: '#2ecc71'
+  };
+
+  function updateCount(id, delta) {
+    const input = document.getElementById(id);
+    let value = parseInt(input.textContent);
+    value = Math.max(0, value + delta);
+    input.textContent = value;
+  }
+
+  function rollDie(sides) {
+    return Math.floor(Math.random() * sides) + 1;
+  }
+
+  function handleRoll() {
+    let total = 0;
+    let breakdown = [];
+
+    diceTypes.forEach(type => {
+      const count = parseInt(document.getElementById(`${type}-count`).textContent);
+      const sides = parseInt(type.replace('d', ''));
+      for (let i = 0; i < count; i++) {
+        const roll = rollDie(sides);
+        total += roll;
+        breakdown.push(`<span style="color:${diceColors[type]}">${roll}</span>`);
+      }
+    });
+
+    const modifier = parseInt(document.getElementById('flat-modifier-count').textContent);
+    total += modifier;
+
+    if (modifier !== 0) {
+      breakdown.push((modifier > 0 ? `+${modifier}` : `${modifier}`));
     }
-  </script>
+
+    document.getElementById('dice-result').innerHTML = `<strong>Sum:</strong> ${total} (${breakdown.join(' + ')})`;
+  }
+
+  // Add event listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    diceTypes.forEach(type => {
+      document.getElementById(`${type}-minus`).addEventListener('click', () => updateCount(`${type}-count`, -1));
+      document.getElementById(`${type}-plus`).addEventListener('click', () => updateCount(`${type}-count`, 1));
+    });
+
+    document.getElementById('modifier-minus').addEventListener('click', () => updateCount('flat-modifier-count', -1));
+    document.getElementById('modifier-plus').addEventListener('click', () => updateCount('flat-modifier-count', 1));
+
+    document.getElementById('roll-button').addEventListener('click', handleRoll);
+  });
+</script>
+
 </body>
 </html>
