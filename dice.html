@@ -149,40 +149,45 @@
       return Math.floor(Math.random() * sides) + 1;
     }
 
-    function rollDice() {
-      let total = 0;
-      let breakdown = [];
+    
+function rollDice() {
+  let total = 0;
+  const diceBreakdown = [];
 
-      diceTypes.forEach(die => {
-        const count = parseInt(document.getElementById(`count-${die}`).textContent);
-        const sides = parseInt(die.replace('d', ''));
-        for (let i = 0; i < count; i++) {
-          const result = rollDie(sides);
-          total += result;
-          breakdown.push(`<span class="${diceColors[die]}">${result}</span>`);
-        }
-      });
-
-      total += modifier;
-     if (modifier !== 0) {
-  const modSign = modifier > 0 ? '+ ' : '- ';
-  breakdown.push(`<span class="roller-mod">${modSign}${Math.abs(modifier)}</span>`);
-}
-
-      const diceOnly = breakdown.slice(0, -1); // all but last
-const lastItem = breakdown[breakdown.length - 1];
-
-let sumDisplay = '';
-if (breakdown.length) {
-  if (modifier !== 0) {
-    sumDisplay = `(${diceOnly.join(' + ')} + ${lastItem})`;
-  } else {
-    sumDisplay = `(${breakdown.join(' + ')})`;
-  }
-}
-
-      document.getElementById('result').innerHTML = `<strong>Sum: ${total}</strong> ${sumDisplay}`;
+  diceTypes.forEach(die => {
+    const count = parseInt(document.getElementById(`count-${die}`).textContent);
+    const sides = parseInt(die.replace('d', ''));
+    for (let i = 0; i < count; i++) {
+      const result = rollDie(sides);
+      total += result;
+      diceBreakdown.push(`<span class="${diceColors[die]}">${result}</span>`);
     }
+  });
+
+  // Apply modifier
+  total += modifier;
+
+  // Create modifier string separately
+  let modifierString = '';
+  if (modifier !== 0) {
+    const modSign = modifier > 0 ? '+' : '-';
+    modifierString = `<span class="roller-mod">${modSign} ${Math.abs(modifier)}</span>`;
+  }
+
+  // Build the sum display
+  let sumDisplay = '';
+  if (diceBreakdown.length || modifier !== 0) {
+    sumDisplay = '(' + diceBreakdown.join(' + ');
+    if (modifierString) {
+      sumDisplay += ' + ' + modifierString;
+    }
+    sumDisplay += ')';
+  }
+
+  document.getElementById('result').innerHTML = `<strong>Sum: ${total}</strong> ${sumDisplay}`;
+}
+
+      
   </script>
 </body>
 </html>
