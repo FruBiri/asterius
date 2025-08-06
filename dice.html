@@ -169,7 +169,18 @@
   breakdown.push(`<span class="roller-mod">${modSign}${Math.abs(modifier)}</span>`);
 }
 
-      const sumDisplay = breakdown.length ? `(${breakdown.join(' ')} )` : '';
+      const diceOnly = breakdown.slice(0, -1); // all but last
+const lastItem = breakdown[breakdown.length - 1];
+
+let sumDisplay = '';
+if (breakdown.length) {
+  if (modifier !== 0) {
+    sumDisplay = `(${diceOnly.join(' + ')} + ${lastItem})`;
+  } else {
+    sumDisplay = `(${breakdown.join(' + ')})`;
+  }
+}
+
       document.getElementById('result').innerHTML = `<strong>Sum: ${total}</strong> ${sumDisplay}`;
     }
   </script>
