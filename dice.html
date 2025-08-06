@@ -152,7 +152,7 @@
     
 function rollDice() {
   let total = 0;
-  const diceBreakdown = [];
+  const parts = [];
 
   diceTypes.forEach(die => {
     const count = parseInt(document.getElementById(`count-${die}`).textContent);
@@ -160,30 +160,25 @@ function rollDice() {
     for (let i = 0; i < count; i++) {
       const result = rollDie(sides);
       total += result;
-      diceBreakdown.push(`<span class="${diceColors[die]}">${result}</span>`);
+      parts.push(`<span class="${diceColors[die]}">${result}</span>`);
     }
   });
 
-  // Apply modifier
+  // Apply modifier to total
   total += modifier;
 
-  // Create modifier string separately
-  let modifierString = '';
+  // Append modifier as raw number (no + or - in string), let joiner format it
   if (modifier !== 0) {
-    const modSign = modifier > 0 ? '+' : '-';
-    modifierString = `<span class="roller-mod">${modSign} ${Math.abs(modifier)}</span>`;
-  }
-
-  // Build the sum display
-  let sumDisplay = '';
-  if (diceBreakdown.length || modifier !== 0) {
-    sumDisplay = '(' + diceBreakdown.join(' + ');
-    if (modifierString) {
-      sumDisplay += ' + ' + modifierString;
+    const modSpan = `<span class="roller-mod">${Math.abs(modifier)}</span>`;
+    // Add sign as a separate string during join, like other numbers
+    if (modifier > 0) {
+      parts.push(modSpan); // will join with +
+    } else {
+      parts.push(`- ${modSpan}`); // already includes minus
     }
-    sumDisplay += ')';
   }
 
+  const sumDisplay = parts.length ? `(${parts.join(' + ')})` : '';
   document.getElementById('result').innerHTML = `<strong>Sum: ${total}</strong> ${sumDisplay}`;
 }
 
