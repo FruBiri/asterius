@@ -2,186 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dice Roller</title>
   <style>
     body {
-      background-color: #121212;
-      color: #f0f0f0;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 2rem;
-      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      padding: 2em;
+      max-width: 600px;
+      margin: auto;
     }
-
     h1 {
-      margin-bottom: 2rem;
+      text-align: center;
+      margin-bottom: 1em;
     }
-
-    .dice-table {
-      display: grid;
-      grid-template-columns: 1fr auto auto auto;
-      gap: 0.5rem 1rem;
-      max-width: 400px;
-      margin: 0 auto 2rem;
-      align-items: center;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1em;
     }
-
-    .dice-label {
-      text-align: left;
-      font-weight: bold;
-    }
-
-    .dice-button {
-      padding: 0.4rem 0.8rem;
-      font-size: 1rem;
-      cursor: pointer;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-    }
-
-    .dice-count {
-      width: 2rem;
+    td {
+      padding: 0.5em;
       text-align: center;
     }
-
-    .roll-button {
-      background-color: #444;
-      color: white;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 10px;
+    button {
+      padding: 0.3em 0.7em;
+      font-size: 1em;
       cursor: pointer;
-      margin-top: 2rem;
     }
-
-    .result {
-      margin-top: 2rem;
-      font-size: 1.3rem;
-      background-color: #1e1e1e;
-      padding: 1rem;
-      border-radius: 10px;
-    }
-
-    .flat-modifier-row {
-      margin-bottom: 2rem;
+    #dice-result {
+      font-weight: bold;
+      font-size: 1.2em;
     }
   </style>
 </head>
 <body>
   <h1>Dice Roller</h1>
+  <table>
+    <tbody>
+      <tr>
+        <td>Flat Modifier</td>
+        <td><button id="modifier-minus">−</button></td>
+        <td><span id="flat-modifier-count">0</span></td>
+        <td><button id="modifier-plus">+</button></td>
+      </tr>
+      <tr>
+        <td>d4</td>
+        <td><button id="d4-minus">−</button></td>
+        <td><span id="d4-count">0</span></td>
+        <td><button id="d4-plus">+</button></td>
+      </tr>
+      <tr>
+        <td>d6</td>
+        <td><button id="d6-minus">−</button></td>
+        <td><span id="d6-count">0</span></td>
+        <td><button id="d6-plus">+</button></td>
+      </tr>
+      <tr>
+        <td>d8</td>
+        <td><button id="d8-minus">−</button></td>
+        <td><span id="d8-count">0</span></td>
+        <td><button id="d8-plus">+</button></td>
+      </tr>
+      <tr>
+        <td>d10</td>
+        <td><button id="d10-minus">−</button></td>
+        <td><span id="d10-count">0</span></td>
+        <td><button id="d10-plus">+</button></td>
+      </tr>
+      <tr>
+        <td>d12</td>
+        <td><button id="d12-minus">−</button></td>
+        <td><span id="d12-count">0</span></td>
+        <td><button id="d12-plus">+</button></td>
+      </tr>
+      <tr>
+        <td>d20</td>
+        <td><button id="d20-minus">−</button></td>
+        <td><span id="d20-count">0</span></td>
+        <td><button id="d20-plus">+</button></td>
+      </tr>
+      <tr>
+        <td>d100</td>
+        <td><button id="d100-minus">−</button></td>
+        <td><span id="d100-count">0</span></td>
+        <td><button id="d100-plus">+</button></td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: center; padding-top: 1em;">
+          <button id="roll-button">Roll</button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" id="dice-result" style="text-align: center;"></td>
+      </tr>
+    </tbody>
+  </table>
 
-  <div class="flat-modifier-row dice-table">
-    <div class="dice-label">Flat Modifier</div>
-    <button class="dice-button">-</button>
-    <div class="dice-count">0</div>
-    <button class="dice-button">+</button>
-  </div>
+  <script>
+    const diceTypes = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
+    const diceColors = {
+      d4: '#c0392b',
+      d6: '#2980b9',
+      d8: '#27ae60',
+      d10: '#8e44ad',
+      d12: '#e67e22',
+      d20: '#2c3e50',
+      d100: '#16a085'
+    };
 
-  <div class="dice-table">
-    <div class="dice-label">d4</div>
-    <button class="dice-button">-</button>
-    <div class="dice-count">0</div>
-    <button class="dice-button">+</button>
-
-    <div class="dice-label">d6</div>
-    <button class="dice-button">-</button>
-    <div class="dice-count">0</div>
-    <button class="dice-button">+</button>
-
-    <div class="dice-label">d8</div>
-    <button class="dice-button">-</button>
-    <div class="dice-count">0</div>
-    <button class="dice-button">+</button>
-
-    <div class="dice-label">d10</div>
-    <button class="dice-button">-</button>
-    <div class="dice-count">0</div>
-    <button class="dice-button">+</button>
-
-    <div class="dice-label">d12</div>
-    <button class="dice-button">-</button>
-    <div class="dice-count">0</div>
-    <button class="dice-button">+</button>
-
-    <div class="dice-label">d20</div>
-    <button class="dice-button">-</button>
-    <div class="dice-count">0</div>
-    <button class="dice-button">+</button>
-
-    <div class="dice-label">d100</div>
-    <button class="dice-button">-</button>
-    <div class="dice-count">0</div>
-    <button class="dice-button">+</button>
-  </div>
-
-  <button class="roll-button">Roll</button>
-
-  <div class="result" id="result">
-    <!-- Roll result will be shown here -->
-  </div>
-<script>
-  const diceTypes = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
-  const diceColors = {
-    d4: '#e74c3c',
-    d6: '#3498db',
-    d8: '#f1c40f',
-    d10: '#9b59b6',
-    d12: '#1abc9c',
-    d20: '#e67e22',
-    d100: '#2ecc71'
-  };
-
-  function updateCount(id, delta) {
-    const input = document.getElementById(id);
-    let value = parseInt(input.textContent);
-    value = Math.max(0, value + delta);
-    input.textContent = value;
-  }
-
-  function rollDie(sides) {
-    return Math.floor(Math.random() * sides) + 1;
-  }
-
-  function handleRoll() {
-    let total = 0;
-    let breakdown = [];
-
-    diceTypes.forEach(type => {
-      const count = parseInt(document.getElementById(`${type}-count`).textContent);
-      const sides = parseInt(type.replace('d', ''));
-      for (let i = 0; i < count; i++) {
-        const roll = rollDie(sides);
-        total += roll;
-        breakdown.push(`<span style="color:${diceColors[type]}">${roll}</span>`);
-      }
-    });
-
-    const modifier = parseInt(document.getElementById('flat-modifier-count').textContent);
-    total += modifier;
-
-    if (modifier !== 0) {
-      breakdown.push((modifier > 0 ? `+${modifier}` : `${modifier}`));
+    function updateCount(id, delta) {
+      const countEl = document.getElementById(`${id}-count`);
+      let value = parseInt(countEl.textContent);
+      value = Math.max(0, value + delta);
+      countEl.textContent = value;
     }
 
-    document.getElementById('dice-result').innerHTML = `<strong>Sum:</strong> ${total} (${breakdown.join(' + ')})`;
-  }
-
-  // Add event listeners
-  document.addEventListener('DOMContentLoaded', () => {
-    diceTypes.forEach(type => {
-      document.getElementById(`${type}-minus`).addEventListener('click', () => updateCount(`${type}-count`, -1));
-      document.getElementById(`${type}-plus`).addEventListener('click', () => updateCount(`${type}-count`, 1));
+    diceTypes.forEach(die => {
+      document.getElementById(`${die}-minus`).addEventListener('click', () => updateCount(die, -1));
+      document.getElementById(`${die}-plus`).addEventListener('click', () => updateCount(die, 1));
     });
 
-    document.getElementById('modifier-minus').addEventListener('click', () => updateCount('flat-modifier-count', -1));
-    document.getElementById('modifier-plus').addEventListener('click', () => updateCount('flat-modifier-count', 1));
+    // Modifier buttons
+    document.getElementById('modifier-minus').addEventListener('click', () => updateCount('flat-modifier', -1));
+    document.getElementById('modifier-plus').addEventListener('click', () => updateCount('flat-modifier', 1));
 
-    document.getElementById('roll-button').addEventListener('click', handleRoll);
-  });
-</script>
+    function rollDie(sides) {
+      return Math.floor(Math.random() * sides) + 1;
+    }
 
+    document.getElementById('roll-button').addEventListener('click', () => {
+      let total = 0;
+      let breakdown = [];
+
+      diceTypes.forEach(die => {
+        const count = parseInt(document.getElementById(`${die}-count`).textContent);
+        const sides = parseInt(die.replace('d', ''));
+        const rolls = [];
+        for (let i = 0; i < count; i++) {
+          const result = rollDie(sides);
+          total += result;
+          rolls.push(`<span style="color: ${diceColors[die]}">${result}</span>`);
+        }
+        if (rolls.length > 0) {
+          breakdown.push(`${die}: ${rolls.join(' + ')}`);
+        }
+      });
+
+      const modifier = parseInt(document.getElementById('flat-modifier-count').textContent);
+      total += modifier;
+      if (modifier !== 0) {
+        breakdown.push(`Modifier: ${modifier >= 0 ? '+' : ''}${modifier}`);
+      }
+
+      document.getElementById('dice-result').innerHTML = `Sum: ${total} <br>(${breakdown.join(' | ')})`;
+    });
+  </script>
 </body>
 </html>
