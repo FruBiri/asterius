@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dice Roller</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1>🎲 Dice Roller</h1>
+    <div class="dice-buttons">
+      <button onclick="rollDice(4)">d4</button>
+      <button onclick="rollDice(6)">d6</button>
+      <button onclick="rollDice(8)">d8</button>
+      <button onclick="rollDice(10)">d10</button>
+      <button onclick="rollDice(12)">d12</button>
+      <button onclick="rollDice(20)">d20</button>
+      <button onclick="rollDice(100)">d100</button>
+    </div>
+
+    <div class="dice-input">
+      <label for="numDice">How many dice?</label>
+      <input type="number" id="numDice" min="1" max="20" value="1">
+    </div>
+
+    <div class="result" id="diceResult"></div>
+
+    <div class="nav-link">
+      <a href="index.html">⬅️ Back to Home</a>
+    </div>
+  </div>
+
+  <script>
+    function rollDice(sides) {
+      const numDice = parseInt(document.getElementById('numDice').value);
+      const results = [];
+      for (let i = 0; i < numDice; i++) {
+        results.push(Math.floor(Math.random() * sides) + 1);
+      }
+
+      const resultBox = document.getElementById('diceResult');
+      resultBox.innerHTML = `
+        <p>Rolling ${numDice} d${sides}:</p>
+        <p>${results.join(', ')}</p>
+        <p><strong>Total:</strong> ${results.reduce((a, b) => a + b, 0)}</p>
+      `;
+    }
+  </script>
+</body>
+</html>

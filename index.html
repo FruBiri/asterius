@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Asterius</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Choose Wisely...</h1>
+  </header>
+
+  <main class="home-screen">
+    <section class="button-grid">
+      <button onclick="navigateTo('dice')">Roll Dice</button>
+      <button onclick="navigateTo('hotstart')">Hot Start</button>
+      <button onclick="navigateTo('setting')">Setting</button>
+      <button onclick="navigateTo('social')">Social</button>
+      <button onclick="navigateTo('encounters')">Encounters</button>
+      <button onclick="navigateTo('bestiary')">Bestiary</button>
+      <button onclick="navigateTo('treasure')">Treasure</button>
+    </section>
+  </main>
+
+  <script>
+    function navigateTo(section) {
+      window.location.href = `${section}.html`;
+    }
+  </script>
+</body>
+</html>

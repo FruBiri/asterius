@@ -1,0 +1,20 @@
+.dice-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.dice-buttons button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.dice-input {
+  margin: 1rem 0;
+}
+
+.nav-link {
+  margin-top: 2rem;
+}
